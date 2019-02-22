@@ -17,6 +17,9 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+   /* "paths": {
+      "@abp/_": [ "../node_modules/abp-ng2-module/src/_" ],
+    } */
   }
 }
