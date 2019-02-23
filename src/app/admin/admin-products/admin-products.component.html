@@ -24,7 +24,7 @@
     <tbody>
         <tr *ngFor="let p of mf.data">
             <td>{{p.title}}</td>
-            <td>{{p.price |currency:'USD':true}} </td>
+            <td>{{p.price |currency:'USD':symbol}} </td>
             <td>{{p.category}}</td>
             <td>
                 <a [routerLink]="['/admin/products/', p.$key]">Edit</a>
