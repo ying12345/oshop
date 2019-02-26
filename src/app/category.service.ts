@@ -11,15 +11,13 @@ export class CategoryService {
 
    }
 
-  getCategories () {
+  getAll () {
     return this.db.list('/categories', {
       query: {
         orderByChild: 'name'
       }
     });
-  }  
-    
-    
+  }
     /*snapshotChanges().pipe(
       map(actions => 
         actions.map(a => ({ key: a.key, ...a.payload.val() }))
