@@ -9,10 +9,11 @@ import { CategoryService } from '../../category.service';
 export class ProductFilterComponent implements OnInit {
   @Input() category;
   categories$;
+
   constructor(categoryService: CategoryService) {
     this.categories$ = categoryService.getAll();
    }
-  
+
   ngOnInit() {
   }
 
