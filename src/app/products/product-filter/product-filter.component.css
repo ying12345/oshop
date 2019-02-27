@@ -1,3 +1,7 @@
+.sticky-top {
+    top:  90px;
+}
+
 .list-group {
     margin:30px;
 }
