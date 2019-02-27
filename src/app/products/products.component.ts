@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
-import { CategoryService } from '../category.service';
 import { ActivatedRoute } from '../../../node_modules/@angular/router';
 import {  Product } from '../models/product';
 
@@ -12,12 +11,11 @@ import {  Product } from '../models/product';
 export class ProductsComponent {
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  categories$;
   category: string;
+
   constructor(
     route: ActivatedRoute,
     productService: ProductService,
-    categoryService: CategoryService
   ) {
 
     productService.getAll().subscribe(products => {
@@ -33,8 +31,6 @@ export class ProductsComponent {
       });
   
     });
-
-    this.categories$ = categoryService.getAll();
-
 }
+
 }
