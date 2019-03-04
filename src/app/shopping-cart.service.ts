@@ -19,11 +19,15 @@ export class ShoppingCartService {
     return this.db.object('/shopping-carts' + cartId);
   }
 
+  private getItem(cartId: string, productId: string) {
+    return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
+  }
+
   private async getOrCreate(){          //  decorate the function with "async".
-    let cartId = localStorage.getItem('cartId');
-    console.log(cartId);
+    const cartId = localStorage.getItem('cartId');
+
     if (!cartId) {
-      let result = await this.create(); // "await" operator allows you to use async method as synchr method.
+      const result = await this.create(); // "await" operator allows you to use async method as synchr method.
       localStorage.setItem('cartId', result.key);
       return result.key;
     }
@@ -31,12 +35,12 @@ export class ShoppingCartService {
   }
 
   async addToCart(product: Product) {
-    let cartId = await this.getOrCreate();
-    let item$ = this.db.object('/shopping-carts/' + cartId + '/items/' + product.$key);
+    const cartId = await this.getOrCreate();
+    const item$ = this.getItem(cartId, product.$key);
 
     item$.pipe(take(1)).subscribe(item => {      // item$.take(1).subscribe()  //error: item$.take is not a function.
-      if (item.$exists()) {item$.update( {quantity:item.quantity + 1} ); }
-      else {item$.set({product: product, quantity: 1});}
+      item$.update( {product: product, quantity: (item.quantity || 0) + 1} );
+      console.log(item.quantity);
     });
 
   }

@@ -13,7 +13,6 @@ export class ProductCardComponent  {
   constructor(private cartService: ShoppingCartService) { }
 
   addToCart(product:Product){
-    console.log('Click');
     this.cartService.addToCart(product);
   }
 
