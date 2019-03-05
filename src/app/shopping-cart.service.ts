@@ -9,21 +9,6 @@ import { take } from 'rxjs/operators';
 export class ShoppingCartService {
 
   constructor(private db: AngularFireDatabase) { }
-  create () {
-    // Problem: Looks like it never runs this code because 'cartId' always in localStorage.
-    return this.db.list('/shopping-carts').push({
-      dateCreated: new Date().getTime(),
-    });
-  }
-
-  async getCart() {
-    // console.log('getCart from db:' + this.db.object('/cartts/' ));
-    const cartId = await this.getOrCreateCartId();
-
-    // After deleting the 'shopping-carts' in database, following line still returns a object.
-    // Problem: Actually it always returns an object.
-    return this.db.object('/shopping-carts/' + cartId);
-  }
 
   private getItem(cartId: string, productId: string) {
     return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
@@ -41,13 +26,38 @@ export class ShoppingCartService {
     return cartId;
   }
 
-  async addToCart(product: Product) {
+  private async updateItemQuantity(product: Product, change: number) {
     const cartId = await this.getOrCreateCartId();
     const item$ = this.getItem(cartId, product.$key);
 
-    item$.pipe(take(1)).subscribe(item => {      // item$.take(1).subscribe()  //error: item$.take is not a function.
-      item$.update( {product: product, quantity: (item.quantity || 0) + 1} );
+    item$.pipe(take(1)).subscribe(item => {
+      item$.update( {product: product, quantity: (item.quantity || 0) + change} );
     });
-
   }
+
+  create () {
+    // Problem: Looks like it never runs this code because 'cartId' always in localStorage.
+    return this.db.list('/shopping-carts').push({
+      dateCreated: new Date().getTime(),
+    });
+  }
+
+  async getCart() {
+    // console.log('getCart from db:' + this.db.object('/cartts/' ));
+    const cartId = await this.getOrCreateCartId();
+    // console.log('cartId:' + cartId);
+
+    // After deleting the 'shopping-carts' in database, following line still returns a object.
+    // Problem: Actually it always returns an object.
+    return this.db.object('/shopping-carts/' + cartId);
+  }
+
+  async addToCart(product: Product) {
+    this.updateItemQuantity(product, 1);
+  }
+
+  async removeFromCart(product: Product) {
+    this.updateItemQuantity(product, -1);
+  }
+
 }
