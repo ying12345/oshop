@@ -9,11 +9,25 @@ import { ShoppingCartService } from '../shopping-cart.service';
 })
 export class ProductCardComponent  {
   @Input('product') product:Product;
-  @Input('show-actions') showActions=true;
+  @Input('show-actions') showActions = true;
+  @Input('shopping-cart') shoppingCart;
+
   constructor(private cartService: ShoppingCartService) { }
 
-  addToCart(product:Product){
+  addToCart(product: Product) {
     this.cartService.addToCart(product);
+  }
+
+  getQuantity() {
+    // Reurns '0' when waitting for getting 'this.shoppingCart'.
+    if (!this.shoppingCart) {
+      return 0;
+    } else {
+    // When there is no 'shopping-carts' in database,
+    // 'cart'([shopping-cart]='cart') still returns an object. But this.shoppingCart.items is undefined.
+    let item = this.shoppingCart.items[this.product.$key]; // If shopping-carts has date-created atttribute this.shoppingCart.items will be undefined.
+    return item ? item.quantity : 0;
+    }
   }
 
 
