@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseObjectObservable } from '../../node_modules/angularfire2/database';
 import { Product } from './models/product';
 import { ShoppingCart} from './models/shopping-cart';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
+import { Observable} from 'rxjs/Observable';
+
 
 @Injectable({
   providedIn: 'root'
@@ -43,14 +45,15 @@ export class ShoppingCartService {
     });
   }
 
-  async getCart(): Promise<FirebaseObjectObservable<ShoppingCart>> {
+  async getCart(): Promise<Observable<ShoppingCart>> {
     // console.log('getCart from db:' + this.db.object('/cartts/' ));
     const cartId = await this.getOrCreateCartId();
     // console.log('cartId:' + cartId);
 
     // After deleting the 'shopping-carts' in database, following line still returns a object.
     // Problem: Actually it always returns an object.
-    return this.db.object('/shopping-carts/' + cartId);
+    return this.db.object('/shopping-carts/' + cartId)
+    .pipe(map(x => new ShoppingCart(x.items)));
   }
 
   async addToCart(product: Product) {
