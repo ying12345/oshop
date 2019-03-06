@@ -1,16 +1,19 @@
 import { ShoppingCartItem } from './shopping-cart-item';
 
 export class ShoppingCart {
-    items: ShoppingCartItem[] = [];
-    constructor(public itemsMap: { [productId: string]: ShoppingCartItem}) { //items actually is not an array it is a map.
-        for (let productId in this.itemsMap)
-            this.items.push(this.itemsMap[productId]);
-}
+
+    constructor(public items: ShoppingCartItem[]){}
+
+    get productIds(){
+        return Object.keys(this.items);
+    }
 
     get totalItemCount( ) {
+        console.log(this.items);
         let count = 0;
-        for ( let productId in this.itemsMap)
-            count += this.itemsMap[productId].quantity;
-        return count;
+        for ( let productId in this.items){
+            count += this.items[productId].quantity;
+        }
+    return count;
     }
 }
