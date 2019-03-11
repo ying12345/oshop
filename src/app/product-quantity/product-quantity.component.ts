@@ -15,11 +15,14 @@ export class ProductQuantityComponent {
   constructor(private cartService: ShoppingCartService) { }
 
   addToCart() {
+    console.log('add:'+ this.product);
     this.cartService.addToCart(this.product);
   }
 
   removeFromCart() {
+    console.log('remove'+ this.product);
     this.cartService.removeFromCart(this.product);
+    
   }
 
 }

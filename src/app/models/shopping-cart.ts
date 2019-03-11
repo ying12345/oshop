@@ -5,15 +5,20 @@ import { Product } from './product';
 export class ShoppingCart {
     items: ShoppingCartItem[] = [];
     constructor(public itemsMap: { [productId: string]: ShoppingCartItem }) {
+        this.itemsMap = itemsMap || {};
         // tslint:disable-next-line:forin
         for (let productId in itemsMap) {
             let item = itemsMap[productId];
-            this.items.push(new ShoppingCartItem(item.product, item.quantity));
+            let x = new ShoppingCartItem();
+            Object.assign(x, item);
+            x.$key = productId;
+            this.items.push(x);
         }
     }
 
     getQuantity(product: Product) {
-        let item = this.itemsMap[product.$key]; // If shopping-carts has date-created atttribute this.shoppingCart.items will be undefined.
+        console.log('product', product);
+        let item = this.itemsMap[product.$key];
         return item ? item.quantity : 0;
         }
 

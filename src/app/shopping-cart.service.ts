@@ -18,8 +18,10 @@ export class ShoppingCartService {
   }
 
   private async getOrCreateCartId(): Promise<string> {          //  decorate the function with "async".
+
     const cartId = localStorage.getItem('cartId');
     // Problem:  No code to remove 'cartId' from local storage.
+    
     if (!cartId) {
       const result = await this.create(); // "await" operator allows you to use async method as synchr method.
       localStorage.setItem('cartId', result.key);
@@ -29,12 +31,17 @@ export class ShoppingCartService {
     return cartId;
   }
 
-  private async updateItemQuantity(product: Product, change: number) {
+  private async updateItem(product: Product, change: number) {
     const cartId = await this.getOrCreateCartId();
     const item$ = this.getItem(cartId, product.$key);
 
     item$.pipe(take(1)).subscribe(item => {
-      item$.update( {product: product, quantity: (item.quantity || 0) + change} );
+      item$.update( {
+        title: product.title,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        quantity: (item.quantity || 0) + change
+      } );
     });
   }
 
@@ -53,15 +60,15 @@ export class ShoppingCartService {
     // After deleting the 'shopping-carts' in database, following line still returns a object.
     // Problem: Actually it always returns an object.
     return this.db.object('/shopping-carts/' + cartId)
-    .pipe(map(x => new ShoppingCart(x.items)));
+    .pipe( map( x => new ShoppingCart(x.items)) );
   }
 
   async addToCart(product: Product) {
-    this.updateItemQuantity(product, 1);
+    this.updateItem(product, 1);
   }
 
   async removeFromCart(product: Product) {
-    this.updateItemQuantity(product, -1);
+    this.updateItem(product, -1);
   }
 
 }
