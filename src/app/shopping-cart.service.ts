@@ -17,11 +17,11 @@ export class ShoppingCartService {
     return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
   }
 
-  private async getOrCreateCartId(): Promise<string> {          //  decorate the function with "async".
+  private async getOrCreateCartId(): Promise<string> {
 
     const cartId = localStorage.getItem('cartId');
     // Problem:  No code to remove 'cartId' from local storage.
-    
+
     if (!cartId) {
       const result = await this.create(); // "await" operator allows you to use async method as synchr method.
       localStorage.setItem('cartId', result.key);
