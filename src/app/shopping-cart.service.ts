@@ -45,7 +45,6 @@ export class ShoppingCartService {
   }
 
   private async getOrCreateCartId(): Promise<string> {
-
     const cartId = localStorage.getItem('cartId');
     // Problem:  No code to remove 'cartId' from local storage.
 
@@ -61,14 +60,15 @@ export class ShoppingCartService {
   private async updateItem(product: Product, change: number) {
     const cartId = await this.getOrCreateCartId();
     const item$ = this.getItem(cartId, product.$key);
-
     item$.pipe(take(1)).subscribe(item => {
-      item$.update( {
+      let quantity = (item.quantity || 0) + change;
+      if (quantity === 0) { item$.remove(); } else { item$.update( {
         title: product.title,
         imageUrl: product.imageUrl,
         price: product.price,
-        quantity: (item.quantity || 0) + change
+        quantity: quantity,
       } );
+      }
     });
   }
 
