@@ -6,8 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./check-out.component.css']
 })
 export class CheckOutComponent implements OnInit {
-
+  shipping = {};
   constructor() { }
+
+  placeOrder() {
+    console.log(this.shipping);
+  }
 
   ngOnInit() {
   }
