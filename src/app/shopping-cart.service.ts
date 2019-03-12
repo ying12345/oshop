@@ -13,6 +13,33 @@ export class ShoppingCartService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  async getCart(): Promise<Observable<ShoppingCart>> {
+    const cartId = await this.getOrCreateCartId();
+    return this.db.object('/shopping-carts/' + cartId)
+    .pipe( map( x => new ShoppingCart(x.items)) );
+  }
+
+  async addToCart(product: Product) {
+    this.updateItem(product, 1);
+  }
+
+  async removeFromCart(product: Product) {
+    this.updateItem(product, -1);
+  }
+
+  async clearCart() {
+    // tslint:disable-next-line:prefer-const
+    let cartId = await this.getOrCreateCartId();
+    this.db.object('/shopping-carts/' + cartId + '/items').remove();
+  }
+
+  private create () {
+    // Problem: Looks like it never runs this code because 'cartId' always in localStorage.
+    return this.db.list('/shopping-carts').push({
+      dateCreated: new Date().getTime(),
+    });
+  }
+
   private getItem(cartId: string, productId: string) {
     return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
   }
@@ -45,30 +72,5 @@ export class ShoppingCartService {
     });
   }
 
-  create () {
-    // Problem: Looks like it never runs this code because 'cartId' always in localStorage.
-    return this.db.list('/shopping-carts').push({
-      dateCreated: new Date().getTime(),
-    });
-  }
-
-  async getCart(): Promise<Observable<ShoppingCart>> {
-    // console.log('getCart from db:' + this.db.object('/cartts/' ));
-    const cartId = await this.getOrCreateCartId();
-    // console.log('cartId:' + cartId);
-
-    // After deleting the 'shopping-carts' in database, following line still returns a object.
-    // Problem: Actually it always returns an object.
-    return this.db.object('/shopping-carts/' + cartId)
-    .pipe( map( x => new ShoppingCart(x.items)) );
-  }
-
-  async addToCart(product: Product) {
-    this.updateItem(product, 1);
-  }
-
-  async removeFromCart(product: Product) {
-    this.updateItem(product, -1);
-  }
 
 }
