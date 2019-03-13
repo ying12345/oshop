@@ -30,11 +30,10 @@ export class ShoppingCartService {
   async clearCart() {
     // tslint:disable-next-line:prefer-const
     let cartId = await this.getOrCreateCartId();
-    this.db.object('/shopping-carts/' + cartId + '/items').remove();
+    this.db.object('/shopping-carts/' + cartId + '/items').remove(); // It does not remove 'cartId' in localStorage.
   }
 
   private create () {
-    // Problem: Looks like it never runs this code because 'cartId' always in localStorage.
     return this.db.list('/shopping-carts').push({
       dateCreated: new Date().getTime(),
     });
@@ -46,7 +45,6 @@ export class ShoppingCartService {
 
   private async getOrCreateCartId(): Promise<string> {
     const cartId = localStorage.getItem('cartId');
-    // Problem:  No code to remove 'cartId' from local storage.
 
     if (!cartId) {
       const result = await this.create(); // "await" operator allows you to use async method as synchr method.
