@@ -12,13 +12,14 @@ export class AuthService {
   user$: Observable<firebase.User>;
 
   constructor(
-    private afAuth: AngularFireAuth, 
-    private route: ActivatedRoute, 
+    private afAuth: AngularFireAuth,
+    private route: ActivatedRoute,
     private userService: UserService
   ) {
     this.user$ = afAuth.authState;
     route.url.subscribe((u) => {console.log(route.snapshot.queryParamMap.get('returnUrl'))});
    }
+
   login() {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
     console.log('returnUrl', returnUrl);
@@ -32,8 +33,8 @@ export class AuthService {
 
   get appUser$(): Observable<AppUser>{
     return this.user$.pipe(
-      switchMap(user=> 
+      switchMap(user =>
         (user) ? this.userService.get(user.uid) : of<AppUser>(null)
-      )); 
+      ));
   }
 }
