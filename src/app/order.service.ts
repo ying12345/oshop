@@ -11,6 +11,8 @@ export class OrderService {
 
   async placeOrder(order) {
     // why we can't return the result immediately here?
+    // it is possibal that clearing the cart fails for some unexpected reason
+    // while connecting with Firebase. A more reliable approach is to have a transaction.
     const result = await this.db.list('/orders').push(order);
     this.shoppingCartService.clearCart();
     return result;
