@@ -46,7 +46,6 @@ export class ShoppingCartService {
 
   private async getOrCreateCartId(): Promise<string> {
     const cartId = localStorage.getItem('cartId');
-    console.log('localStorage get cartID', cartId);
     if (!cartId) {
       const result = await this.create(); // "await" operator allows you to use async method as synchr method.
       localStorage.setItem('cartId', result.key);
