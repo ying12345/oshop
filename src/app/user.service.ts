@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
