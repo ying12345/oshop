@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "oshop-8abce"
+    "default": "oshop-e8414",
+    "staging": "oshop-e8414"
   }
 }
