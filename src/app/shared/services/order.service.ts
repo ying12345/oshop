@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '../../node_modules/angularfire2/database';
+import { AngularFireDatabase } from '../../../../node_modules/angularfire2/database';
 import { ShoppingCartService } from './shopping-cart.service';
 
 @Injectable({

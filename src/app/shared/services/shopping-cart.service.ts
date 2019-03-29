@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, FirebaseObjectObservable } from '../../node_modules/angularfire2/database';
-import { Product } from './models/product';
-import { ShoppingCart} from './models/shopping-cart';
+import { AngularFireDatabase, FirebaseObjectObservable } from '../../../../node_modules/angularfire2/database';
+import { Product } from '../models/product';
+import { ShoppingCart} from '../models/shopping-cart';
 import { take, map } from 'rxjs/operators';
 import { Observable} from 'rxjs/Observable';
 
@@ -59,7 +59,7 @@ export class ShoppingCartService {
     const cartId = await this.getOrCreateCartId();
     const item$ = this.getItem(cartId, product.$key);
     item$.pipe(take(1)).subscribe(item => {
-      let quantity = (item.quantity || 0) + change;
+      const quantity = (item.quantity || 0) + change;
       if (quantity === 0) { item$.remove(); } else { item$.update( {
         title: product.title,
         imageUrl: product.imageUrl,

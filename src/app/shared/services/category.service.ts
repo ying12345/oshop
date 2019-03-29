@@ -19,7 +19,7 @@ export class CategoryService {
     });
   }
     /*snapshotChanges().pipe(
-      map(actions => 
+      map(actions =>
         actions.map(a => ({ key: a.key, ...a.payload.val() }))
       )
     ).subscribe(items => {

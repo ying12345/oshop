@@ -22,14 +22,14 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
 import { LoginComponent} from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 
-import { AuthService } from './auth.service';
-import { AuthGuard} from './auth-guard.service';
-import { UserService} from './user.service';
-import { OrderService} from './order.service';
-import { CategoryService} from './category.service';
+import { AuthService } from './shared/services/auth.service';
+import { AuthGuard} from './shared/services/auth-guard.service';
+import { UserService} from './shared/services/user.service';
+import { OrderService} from './shared/services/order.service';
+import { CategoryService} from './shared/services/category.service';
 import { AdminAuthGuard } from './admin-auth-guard.service';
-import { ProductService} from './product.service';
-import { ShoppingCartService } from './shopping-cart.service';
+import { ProductService} from './shared/services/product.service';
+import { ShoppingCartService } from './shared/services/shopping-cart.service';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';

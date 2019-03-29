@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../category.service';
-import { ProductService } from '../../product.service';
+import { CategoryService } from '../../shared/services/category.service';
+import { ProductService } from '../../shared/services/product.service';
 import {  Router, ActivatedRoute } from '@angular/router';
 import {  take } from 'rxjs/operators';
 
@@ -18,11 +18,11 @@ export class ProductFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private categoryServie: CategoryService,
-    private productService: ProductService){
+    private productService: ProductService) {
 
     this.categories$ = categoryServie.getAll();
     this.id = this.route.snapshot.paramMap.get('id');
-    //console.log(id);
+    // console.log(id);
     if (this.id) {this.productService.get(this.id).pipe(take(1)).subscribe(p => this.product = p); }
     }
 
@@ -35,7 +35,7 @@ export class ProductFormComponent implements OnInit {
     this.router.navigate(['/admin/products']);
   }
 
-  delete(productId){
+  delete(productId) {
     // tslint:disable-next-line:curly
     if (!confirm('Are you sure you want to delete this product?')) return;
     this.productService.delete(this.id);
