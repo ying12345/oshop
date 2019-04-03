@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Product } from '../shared/models/product';
-import { ShoppingCartService} from '../shared/services/shopping-cart.service';
+import { Product } from 'shared/models/product';
+import { ShoppingCartService} from 'shared/services/shopping-cart.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
