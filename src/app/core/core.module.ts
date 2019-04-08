@@ -4,6 +4,7 @@ import { BsNavbarComponent } from './components/bs-navbar/bs-navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RouterModule } from '../../../node_modules/@angular/router';
+import { SharedModule } from 'shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { RouterModule } from '../../../node_modules/@angular/router';
     LoginComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     RouterModule.forChild([])
   ],
   exports: [
