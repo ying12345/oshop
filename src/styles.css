@@ -3,3 +3,20 @@
 @import "~font-awesome/css/font-awesome.css";
 
 body { padding-top: 0px;}
+/* Why following doesn't work ?
+.btn-secondary {
+    background-color: green;
+}
+
+.navbar-light .navbar-brand {
+    color: #76753b;
+  }
+
+.btn-secondary {
+    background-color: #76753b;
+}
+
+.list-group-item.active {
+    background-color: #00601D;
+    border-color: #00601D;
+} */
